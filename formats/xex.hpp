@@ -115,10 +115,10 @@ class XEXFile
   bool read_secinfo(void* file);
   uint32_t verify_secinfo(void* file);
 
-  bool read_basefile(void* file, int key_index);
+  bool read_basefile(void* file, int key_index, bool ignore_failure = false);
   bool read_basefile_raw(void* file, bool encrypted);
   bool read_basefile_uncompressed(void* file, bool encrypted);
-  bool read_basefile_compressed(void* file, bool encrypted);
+  bool read_basefile_compressed(void* file, bool encrypted, bool ignore_failure = false);
 
   bool basefile_verify();
 

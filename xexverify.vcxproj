@@ -88,9 +88,17 @@
   <ItemGroup>
     <ClCompile Include="3rdparty\excrypt\src\excrypt_aes.c" />
     <ClCompile Include="3rdparty\excrypt\src\excrypt_sha.c" />
+    <ClCompile Include="3rdparty\excrypt\src\excrypt_mem.cpp" />
+    <ClCompile Include="3rdparty\excrypt\src\excrypt_bn.c" />
+    <ClCompile Include="3rdparty\excrypt\src\excrypt_bn_sig.c" />
+    <ClCompile Include="3rdparty\excrypt\src\excrypt_bn_mod.cpp" />
+    <ClCompile Include="3rdparty\excrypt\src\excrypt_rotsum.c" />
+    <ClCompile Include="3rdparty\excrypt\src\excrypt_rc4.c" />
     <ClCompile Include="3rdparty\excrypt\src\rijndael.c" />
+    <ClCompile Include="3rdparty\lzx.cpp" />
     <ClCompile Include="3rdparty\mspack\lzxd.c" />
     <ClCompile Include="3rdparty\mspack\system.c" />
+    <ClCompile Include="formats\xex.cpp" />
     <ClCompile Include="xexverify.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -188,8 +188,13 @@ bool XEXFile::load(void* file)
   }
 
   // Try decrypting/decompressing the basefile
+  bool failed_decrypt = false;
   if (!read_basefile(file, 0) && !read_basefile(file, 1) && !read_basefile(file, 2) && !read_basefile(file, 3))
-    return false;
+  {
+    // assume encrypted with signing key if verification fails.
+    key_index_ = signkey_index_;
+    failed_decrypt = true;
+  }
 
   // Basefile seems to have read fine, try reading the PE headers
   if (basefile_is_pe())
@@ -252,7 +257,7 @@ bool XEXFile::load(void* file)
     }
   }
 
-  if (basefile_is_pe())
+  if (basefile_is_pe() || failed_decrypt)
   {
     // Try reading imports & exports
     read_imports(file);
@@ -816,7 +821,7 @@ bool XEXFile::read_basefile_uncompressed(void* file, bool encrypted)
 }
 
 // Reads (and optionally decrypts) the basefile from the XEX in LZX-compressed format
-bool XEXFile::read_basefile_compressed(void* file, bool encrypted)
+bool XEXFile::read_basefile_compressed(void* file, bool encrypted, bool ignore_failure)
 {
   uint8_t aes_iv[0x10] = { 0 };
   EXCRYPT_AES_STATE aes_state;
@@ -862,7 +867,7 @@ bool XEXFile::read_basefile_compressed(void* file, bool encrypted)
     uint8_t sha_hash[0x14];
     ExCryptSha(block_data, cur_block->Size, nullptr, 0, nullptr, 0, sha_hash, sizeof(sha_hash));
 
-    if (memcmp(sha_hash, cur_block->DataDigest, 0x14) != 0)
+    if (memcmp(sha_hash, cur_block->DataDigest, 0x14) != 0 && !ignore_failure)
     {
       retcode = 2;
       load_error_ = uint32_t(XEXLoadError::BadBlockHash);
@@ -879,7 +884,7 @@ bool XEXFile::read_basefile_compressed(void* file, bool encrypted)
         break;
 
       comp_size = xe::byte_swap(comp_size);
-      if (comp_size > 0x9800) // sanity check: shouldn't be above 0x9800
+      if (comp_size > 0x9800 && !ignore_failure) // sanity check: shouldn't be above 0x9800
       {
         retcode = 1;
         load_error_ = uint32_t(XEXLoadError::BadBlockSize);
@@ -907,6 +912,9 @@ end:
     load_error_ = retcode;
     dbgmsg("[!] read_basefile_compressed error code = %d!\n", retcode);
   }
+  
+  if (ignore_failure)
+    return true;
 
   return retcode == 0;
 }
@@ -1258,7 +1266,7 @@ void* XEXFile::opt_header_ptr(uint32_t id)
 }
 
 // Reads in, decrypts, decompresses & verifies the basefile from the XEX image
-bool XEXFile::read_basefile(void* file, int key_index)
+bool XEXFile::read_basefile(void* file, int key_index, bool ignore_failure)
 {
   xex_opt::XexDataFormat comp_format = xex_opt::XexDataFormat::None;
   uint16_t enc_flag = 0;
@@ -1301,7 +1309,7 @@ bool XEXFile::read_basefile(void* file, int key_index)
   else if (comp_format == xex_opt::XexDataFormat::Raw)
     result = read_basefile_uncompressed(file, enc_flag);
   else if (comp_format == xex_opt::XexDataFormat::Compressed)
-    result = read_basefile_compressed(file, enc_flag);
+    result = read_basefile_compressed(file, enc_flag, ignore_failure);
   else if (comp_format == xex_opt::XexDataFormat::DeltaCompressed)
     return true; // TODO: any way to validate this?
   else

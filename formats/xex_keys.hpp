@@ -22,14 +22,14 @@ const uint8_t devkit_key_xex1[16] = {
   0xC6, 0x58, 0xB3, 0x10, 0x1F, 0x9F, 0x50, 0xD1
 };
 
-const int num_enckeys = 4;
-const uint8_t* key_bytes[num_enckeys] = {
+inline constexpr int num_enckeys = 4;
+inline const uint8_t* key_bytes[num_enckeys] = {
   retail_key,
   devkit_key,
   retail_key_xex1,
   devkit_key_xex1
 };
-const char* key_names[num_enckeys] = {
+inline const char* key_names[num_enckeys] = {
   "retail",
   "devkit",
   "retail-XEX1",
@@ -128,14 +128,14 @@ const uint8_t live_devkit_public[] = {
     0xDD, 0xA0, 0xF6, 0xE6, 0x06, 0x8E, 0x1C, 0x84, 0xB5, 0xFF, 0x62, 0xEB, 0xEC, 0x7B, 0xC3, 0x3D
 };
 
-const int num_pubkeys = 4;
-const uint8_t* pubkey_bytes[num_pubkeys] = {
+inline constexpr int num_pubkeys = 4;
+inline const uint8_t* pubkey_bytes[num_pubkeys] = {
   pirs_retail_public,
   pirs_devkit_public,
   live_retail_public,
   live_devkit_public
 };
-const char* pubkey_names[num_pubkeys] = {
+inline const char* pubkey_names[num_pubkeys] = {
   "retail",
   "devkit",
   "retail-LIVE",

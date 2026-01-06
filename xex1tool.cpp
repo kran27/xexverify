@@ -927,15 +927,12 @@ int main(int argc, char* argv[])
   XEXFile xex;
 
   bool loadresult = xex.load(file);
-
-  // incomplete xex files can "fail to load" but still read valid/semi-valid header info.
-  // for the purpose of defragmenting, it's better to be able to read some data and "risk" a crash
-  // rather than failing without the chance to get any info.
-  //if (!loadresult)
-  //{
-  //  printf("Error %d while loading XEX file %s\n", xex.load_error(), filepath.c_str());
-  //  return xex.load_error();
-  //}
+  
+  if (!loadresult)
+  {
+    printf("Error %d while loading XEX file %s\n", xex.load_error(), filepath.c_str());
+    return xex.load_error();
+  }
 
   if (result.count("a"))
   {
