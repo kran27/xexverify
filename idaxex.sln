@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "idaxex", "idaxex.vcxproj", 
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xex1tool", "xex1tool.vcxproj", "{67F256A0-C7FB-448F-9B8F-362AE793C5B4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xexverify", "xexverify.vcxproj", "{A8F256B1-D8FC-459F-AC9F-473BE894D6B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,10 @@ Global
 		{67F256A0-C7FB-448F-9B8F-362AE793C5B4}.Debug|x64.Build.0 = Debug|x64
 		{67F256A0-C7FB-448F-9B8F-362AE793C5B4}.Release|x64.ActiveCfg = Release|x64
 		{67F256A0-C7FB-448F-9B8F-362AE793C5B4}.Release|x64.Build.0 = Release|x64
+		{A8F256B1-D8FC-459F-AC9F-473BE894D6B5}.Debug|x64.ActiveCfg = Debug|x64
+		{A8F256B1-D8FC-459F-AC9F-473BE894D6B5}.Debug|x64.Build.0 = Debug|x64
+		{A8F256B1-D8FC-459F-AC9F-473BE894D6B5}.Release|x64.ActiveCfg = Release|x64
+		{A8F256B1-D8FC-459F-AC9F-473BE894D6B5}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
